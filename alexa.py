@@ -1,11 +1,11 @@
 import speech_recognition as sr
 import sounddevice as sd
-import pyttsx3, pywhatkit, wikipedia, pyjokes, datetime, os
+import ai
+import pyttsx3, pywhatkit, pyjokes, datetime, os
 
 # Initiate recognizer & TTS
 listener = sr.Recognizer()
 engine = pyttsx3.init()
-
 print("Welcome to Alexa. Please speak what you want to say.")
 # Set Voice Type (Female = 1, Male = 0)
 voices = engine.getProperty("voices")
@@ -73,12 +73,14 @@ def run_alexa_talk():
                    .replace("who is", "")
                    .strip()
         )
-        info = wikipedia.summary(person, 1)
-        print(info)
-        talk(info)
+        ai.response_chatbot(command, "Answer in short as if you are talking to a person")
+
+    elif "go on date" in command:
+        talk("Sorry, I'm not in the mood")
 
     elif "date" in command:
-        talk("Sorry, I'm not in the mood")
+        date = datetime.now().date()
+        talk(f"The date is {date}")
 
     elif "are you single" in command:
         talk("I'm in a relationship with Wi-Fi")
@@ -96,18 +98,22 @@ def run_alexa_talk():
                    .strip()
         )
         if app == "browser":
-            os.system("C:/Program Files/Google/Chrome/Application/chrome.exe") # use your own path for the application
+            talk("Opening Google Chrome")
+            os.system(r'"C:\Program Files\Google\Chrome\Application\chrome.exe"')
 
         elif app == "spotify" or app == "music":
-            os.system("C:/Users/mayan/AppData/Roaming/Spotify/Spotify.exe") # # use your own path for the application
+            talk("Opening Spotify")
+            os.system("C:/Users/mayan/AppData/Roaming/Spotify/Spotify.exe")
 
         elif app == "code":
-            os.system("C:/Users/mayan/AppData/Local/Programs/Microsoft VS Code/Code.exe") # # use your own path for the application
+            talk("Opening VS Code")
+            os.system("D:/Alexa/VSC.lnk")
 
         elif app == "workspace":
-            os.system("C:/Users/mayan/AppData/Local/Programs/Microsoft VS Code/Code.exe") # use your own path for the application
-            os.system("C:/Users/mayan/AppData/Roaming/Spotify/Spotify.exe") # use your own path for the application
-            os.system("C:/Program Files/Google/Chrome/Application/chrome.exe") # use your own path for the application
+            talk("Opening your Workspace")
+            os.system("D:/Alexa/VSC.lnk")
+            os.system("C:/Users/mayan/AppData/Roaming/Spotify/Spotify.exe")
+            os.system("C:/Program Files/Google/Chrome/Application/chrome.exe")
         
     elif "quit" in command:
         run = False
@@ -115,12 +121,12 @@ def run_alexa_talk():
         return
     
     elif "hello" in command:
-        talk("Hii Basfoot, Welcome to Alexa. How can I Help you ?") # Change Basfoot to your name if desired
+        talk("Hii Basfoot, Welcome to Alexa. How can I Help you ?")
     
     elif command != "":
         talk("Please say that again")
 
-        
+   
 
 run = True
 # Run Alexa
